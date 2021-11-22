@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AkunController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\SupplierController;
@@ -23,14 +25,43 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+
+//Postlogin
+Route::post('/postlogin', [AuthController::class, 'postlogin']);
+
+//Logout
+Route::get('/logout', [AuthController::class, 'logout']);
+
+//Reject
+Route::get('/reject', [AuthController::class, 'reject']);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//AUTH
+Route::group(['middleware' => 'auth'], function(){
+    //Admin
+    Route::group(['middleware' => 'CheckRole:admin'], function(){
+        // Route Akun
+        Route::get('/akun', [AkunController::class, 'index']);
+        Route::post('/akun/store', [AkunController::class, 'store'])->name('akun.store');
+        Route::get('/akun/{id}/edit', [AkunController::class, 'edit']);
+        Route::post('/akun/{id}', [AkunController::class, 'update'])->name('akun.update');
+        Route::get('/akun/delete/{id}', [AkunController::class, 'destroy']);
+    });
+    //Karyawan
+    Route::group(['middleware' => 'CheckRole:karyawan'], function(){        
+        // Route Barang
+        Route::get('/barang', [BarangController::class, 'index']);
+        Route::get('/barang/{id}/edit', [BarangController::class, 'edit']);
+        Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
+        Route::post('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
+        Route::get('/barang/delete/{id}', [BarangController::class, 'destroy']);
+    });
+});
+
 // Route Dashboard
 // Route::get('/dashboard)
-// Route Barang
-Route::get('/barang', [BarangController::class, 'index']);
-Route::get('/barang/{id}/edit', [BarangController::class, 'edit']);
-Route::post('/barang/store', [BarangController::class, 'store'])->name('barang.store');
-Route::post('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
-Route::get('/barang/delete/{id}', [BarangController::class, 'destroy']);
 
 // Route Kategori
 Route::get('/kategori', [KategoriController::class, 'index']);
@@ -63,9 +94,4 @@ Route::get('/laporan', function () {
 });
 Route::get('/laporan/filter', [TransaksiController::class, 'filter_lap'])->name('laporan_filter');
 
-// Route Akun
-Route::get('/akun', [AkunController::class, 'index']);
-Route::post('/akun/store', [AkunController::class, 'store'])->name('akun.store');
-Route::get('/akun/{id}/edit', [AkunController::class, 'edit']);
-Route::post('/akun/{id}', [AkunController::class, 'update'])->name('akun.update');
-Route::get('/akun/delete/{id}', [AkunController::class, 'destroy']);
+
