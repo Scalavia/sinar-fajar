@@ -22,10 +22,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.auth.newlogin');
 });
 
 Auth::routes();
+
+//login
+Route::get('/newlogin', [AuthController::class, 'login']);
 
 //Postlogin
 Route::post('/postlogin', [AuthController::class, 'postlogin']);

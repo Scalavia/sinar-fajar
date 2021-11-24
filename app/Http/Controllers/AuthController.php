@@ -7,6 +7,9 @@ use Auth;
 
 class AuthController extends Controller
 {
+    public function login(){
+        return view('layouts.auth.newlogin');
+    }
     public function postlogin(Request $request){
     	//kondisi login
     	if (Auth::attempt($request->only('email', 'password'))){
@@ -33,6 +36,6 @@ class AuthController extends Controller
 
     //menampilkan halaman semisal ora hak akses e, tp rung enek halamane wkwk
     public function reject(){
-    	return view('layouts.reject');
+    	return view('reject');
     }
 }
