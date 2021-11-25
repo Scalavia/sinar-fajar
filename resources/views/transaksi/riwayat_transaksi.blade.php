@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
-@section('content_header')
+@section('title')
+Riwayat Transaksi
 @endsection
 
 @section('content')
@@ -32,23 +33,25 @@
                       <div class="card">
                         <div class="card-header">
                           <h3 class="card-title text-middle">
-                            <div class="input-group input-group-sm mt-3" style="width: 250px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <form action="">
+                              <div class="input-group input-group-sm mt-3" style="width: 250px;">
+                                  <input type="text" name="cari" id="cari" class="form-control float-right" value="{{old('cari')}}" placeholder="Search">
+  
+                                  <div class="input-group-append">
+                                      <button type="submit" class="btn btn-default">
+                                          <i class="fas fa-search"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                            </form>
                           </h3>
 
                           <div class="card-tools">
                           </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0" style="height: 300px;">
-                            <table class="table table-head-fixed text-nowrap">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
                                 <thead>
                                 <tr>
                                     <th>Invoice</th>
@@ -59,17 +62,27 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($transaksi as $trx)
+                                    @forelse ($transaksi as $trx)
                                         <tr>
                                             <td>{{ $trx->invoice }}</td>
                                             <td>{{ date('d M Y', strtotime($trx->created_at)) }}</td>
                                             <td>{{ date('H:i', strtotime($trx->created_at)) }}</td>
-                                            <td></td>
+                                            <td>{{ $trx->user->name }}</td>
                                             <td><a href="{{ url('/riwayat_transaksi/detail_transaksi/'.$trx->id) }}" class="btn btn-primary">Detail</a></td>
                                         </tr>
-                                    @endforeach
+                                        @empty
+                                        <td class="text-center" colspan="10">DATA YANG ANDA CARI TIDAK DITEMUKAN!</td>
+                                    @endforelse
                                 </tbody>
                             </table>
+                            <div class="row m-2">
+                              <div class="col-md-3">
+                                Showing {{ $transaksi->firstItem() }} to {{ $transaksi->lastItem() }} of {{ $transaksi->total() }} entries
+                              </div>
+                              <div class="col-md-9">
+                                <span class="float-right">{!! $transaksi->links('bootstrap-4') !!}</span>
+                              </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                       </div>

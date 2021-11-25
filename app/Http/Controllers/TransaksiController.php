@@ -9,12 +9,13 @@ use App\Models\Stok;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransaksiController extends Controller
 {
     public function index()
     {
-        $barang = Barang::all();
+        $barang = Barang::orderBy('nama_barang', 'asc')->get();
         $dump_transaksi = DumpTransaksi::paginate(5);
         $total_barang = DumpTransaksi::count('id');
         $total_baryar = DumpTransaksi::sum('subtotal');
@@ -39,6 +40,18 @@ class TransaksiController extends Controller
         return redirect()->back();
     }
 
+    public function hapus_keranjang($id)
+    {
+        $dump_transaksi = DumpTransaksi::find($id);
+        $barang = Barang::where('id', $dump_transaksi->id_barang)->first();
+        $hasil = $dump_transaksi->jumlah + $barang->stok;
+        $barang->stok = $hasil;
+        $barang->save();
+        $dump_transaksi->delete();
+
+        return redirect()->back();
+    }
+
     public function proses(Request $request)
     {
         $transaksi = new Transaksi();
@@ -48,10 +61,11 @@ class TransaksiController extends Controller
         $number = mt_rand(1000, 9999);
         $random = strtoupper(substr(md5($number), 5, 5));
         $invo = "INV".$today->day."".$today->month."".$today->year."".$random;
+        $transaksi->id_user = Auth::user()->id;
         $transaksi->invoice = $invo;
         $transaksi->total_bayar = $request->total_bayar;
         $transaksi->jumlah_bayar = $request->bayar;
-        $transaksi->kembalian = $request->total_bayar - $request->bayar;
+        $transaksi->kembalian = $request->kembalian;
         $transaksi->save();
 
         $fix = Transaksi::where('invoice', $invo)->get();
@@ -73,11 +87,18 @@ class TransaksiController extends Controller
         return redirect()->back();
     }
 
-    public function riwayat_transaksi()
+    public function riwayat_transaksi(Request $request)
     {
-        $transaksi = Transaksi::paginate(5);
-
-        return view('transaksi.riwayat_transaksi', ['transaksi' => $transaksi]);
+        if (empty($request->all())) {
+            $transaksi = Transaksi::orderBy('created_at', 'desc')->paginate(15);
+    
+            return view('transaksi.riwayat_transaksi', ['transaksi' => $transaksi]);
+        } else {
+            $cari = $request->cari;
+            $transaksi = Transaksi::where('invoice', 'like', "%".$cari."%")->orderBy('created_at', 'desc')->paginate(15);
+    
+            return view('transaksi.riwayat_transaksi', ['transaksi' => $transaksi]);
+        }
     }
 
     public function detail_transaksi($id)

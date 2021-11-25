@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
-@section('content_header')
+@section('title')
+Dashboard
 @endsection
 
 @section('content')
@@ -29,7 +30,7 @@
             <div class="container-fluid">
                 <div class="small-box bg-info">
                   <div class="inner">
-                    <p>Selamat Datang Admin</p>
+                    <p>Selamat Datang {{ Auth::user()->name }}</p>
                     <h2 class="ml-3">Sinar Fajar</h2>
                     <p class="mt-3"><?php echo date('l, d-m-Y') ?></p>
                   </div>
@@ -40,7 +41,7 @@
                   <!-- small box -->
                   <div class="small-box bg-info">
                     <div class="inner">
-                      <h3>Rp. xx</h3>
+                      <h3>Rp. {{ $transaksi_sum }}</h3>
 
                       <p>Pendapatan Hari ini</p>
                     </div>
@@ -55,14 +56,14 @@
                   <!-- small box -->
                   <div class="small-box bg-success">
                     <div class="inner">
-                      <h3>xx</h3>
+                      <h3>{{ $stok }}</h3>
 
                       <p>Barang Masuk Hari ini</p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-bag"></i>
                     </div>
-                    <a href="{{ url('/barang_masuk') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ url('/dashboard/barang_masuk_hari_ini') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
                 <!-- ./col -->
@@ -70,14 +71,14 @@
                   <!-- small box -->
                   <div class="small-box bg-warning">
                     <div class="inner">
-                      <h3>xx</h3>
+                      <h3>{{ $transaksi_count }}</h3>
 
                       <p>Jumlah Transaksi Hari ini</p>
                     </div>
                     <div class="icon">
                       <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="{{ url('/transaksi_hari_ini') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ url('/dashboard/transaksi_hari_ini') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
               </div>

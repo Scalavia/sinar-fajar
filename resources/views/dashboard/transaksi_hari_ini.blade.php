@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
-@section('content_header')
+@section('title')
+Dashboard
 @endsection
 
 @section('content')
@@ -15,7 +16,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Riwayat Transaksi Hari Ini</li>
                     </ol>
                 </div><!-- /.col -->
@@ -30,36 +31,25 @@
                 <div class="row">
                     <div class="col-12">
                       <div class="card">
-                        <div class="card-header">
-                          <h3 class="card-title text-middle">
-                            <div class="input-group input-group-sm mt-3" style="width: 250px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                          </h3>
-
-                          <div class="card-tools">
-                          </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0" style="height: 300px;">
-                            <table class="table table-head-fixed text-nowrap">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
                                 <thead>
                                 <tr>
                                     <th>Incovice</th>
-                                    <th>Nama</th>
-                                    <th>Harga</th>
-                                    <th>Qty</th>
+                                    <th>Kasir</th>
                                     <th>Total</th>
                                     <th>Tanggal</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($transaksi as $trx)
+                                        <tr>
+                                            <td>{{ $trx->invoice }}</td>
+                                            <td>{{ $trx->user->name }}</td>
+                                            <td>{{ $trx->total_bayar }}</td>
+                                            <td>{{ date('d M Y', strtotime($trx->created_at)) }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

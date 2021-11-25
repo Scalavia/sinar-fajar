@@ -10,4 +10,9 @@ class Transaksi extends Model
     use HasFactory;
     protected $table = 'transaksi';
     protected $primaryKey = 'id';
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\Akun', 'id', 'id_user');
+    }
 }

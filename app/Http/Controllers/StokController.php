@@ -9,14 +9,22 @@ use Illuminate\Http\Request;
 
 class StokController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // $stok = Stok::all();
-        $barang = Barang::all();
-        $list = Barang::all();
-        $supplier = Supplier::all();
-
-        return view('stok.index', ['list' => $list, 'barang' => $barang, 'supplier' => $supplier]);
+        if (empty($request->all())) {
+            $barang = Barang::paginate(15);
+            $list = Barang::all();
+            $supplier = Supplier::all();
+    
+            return view('stok.index', ['list' => $list, 'barang' => $barang, 'supplier' => $supplier]);
+        } else {
+            $cari = $request->cari;
+            $barang = Barang::where('nama_barang', 'like', "%".$cari."%")->paginate(15);
+            $list = Barang::all();
+            $supplier = Supplier::all();
+    
+            return view('stok.index', ['list' => $list, 'barang' => $barang, 'supplier' => $supplier]);
+        }
     }
 
     public function cari_stok($id)

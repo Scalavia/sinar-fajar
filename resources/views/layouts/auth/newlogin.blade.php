@@ -27,13 +27,13 @@
       <form action="{{ url('/postlogin') }}" method="post">
         @csrf
         <div class="input-group mb-3">
-          <input id="email" name="email" type="email" class="form-control" placeholder="Email" @error('email') is-invalid @enderror value="{{ old('email') }}" required autocomplete="email" autofocus>
+          <input id="username" name="username" type="text" class="form-control" placeholder="Username" @error('email') is-invalid @enderror value="{{ old('email') }}" required autocomplete="email" autofocus>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
-          @error('email')
+          @error('username')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>

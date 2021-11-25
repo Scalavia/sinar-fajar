@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = Kategori::paginate(10);
+        if (empty($request->all())) {
+            $kategori = Kategori::paginate(10);
+    
+            return view('kategori.index', ['kategori' => $kategori]);
+        } else {
+            $cari = $request->cari;
+            $kategori = Kategori::where('nama', 'like', "%".$cari."%")->paginate(10);
 
-        return view('kategori.index', ['kategori' => $kategori]);
+            return view('kategori.index', ['kategori' => $kategori]);
+        }
     }
 
     public function store(Request $request)

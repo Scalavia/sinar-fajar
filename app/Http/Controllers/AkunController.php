@@ -8,11 +8,18 @@ use Illuminate\Support\Facades\Hash;
 
 class AkunController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $akun = Akun::all();
-
-        return view('akun.index', ['akun' => $akun]);
+        if (empty($request->all())) {
+            $akun = Akun::paginate(5);
+    
+            return view('akun.index', ['akun' => $akun]);
+        } else {
+            $cari = $request->cari;
+            $akun = Akun::where('name', 'like', "%".$cari."%");
+    
+            return view('akun.index', ['akun' => $akun]);
+        }
     }
 
     public function store(Request $request)
@@ -70,5 +77,36 @@ class AkunController extends Controller
         Akun::find($id)->delete();
 
         return redirect()->back();
+    }
+
+    public function profile($id)
+    {
+        $akun = Akun::find($id);
+
+        return view('akun.profile', ['akun' => $akun]);
+    }
+
+    public function profile_update(Request $request, $id)
+    {
+        $akun = Akun::where('id', $id)->first();
+
+        if ($request->password == null){
+            $akun->name = $request->nama;
+            $akun->notelp = $request->notelp;
+            $akun->alamat = $request->alamat;
+            $akun->email = $request->email;
+            $akun->save();
+
+            return redirect()->back();
+        } else {
+            $akun->name = $request->nama;
+            $akun->notelp = $request->notelp;
+            $akun->alamat = $request->alamat;
+            $akun->email = $request->email;
+            $akun->password = Hash::make($request->password);
+            $akun->save();
+
+            return redirect()->back();
+        }
     }
 }

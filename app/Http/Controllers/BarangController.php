@@ -10,12 +10,24 @@ use function PHPUnit\Framework\isEmpty;
 
 class BarangController extends Controller
 {
-    public function index(){
-        $barang = Barang::all();
-        $kategori = Kategori::all();
-        $kode = Barang::count('id');
-
-        return view('barang.index', ['barang' => $barang, 'kategori' => $kategori, 'kode' => $kode]);
+    public function index(Request $request)
+    {
+        if (empty($request->all())) {
+            $barang = Barang::paginate(15);
+            $kategori = Kategori::all();
+            $kode = Barang::count('id');
+    
+            return view('barang.index', ['barang' => $barang, 'kategori' => $kategori, 'kode' => $kode]);
+        } else {
+            $cari = $request->cari;
+            $barang = Barang::where('kode_barang', 'like', "%".$cari."%")->orwhere('nama_barang', 'like', "%".$cari."%")->paginate(15);
+            $kategori = Kategori::all();
+            $kode = Barang::count('id');
+            session()->flashInput($request->input());
+            $barang->appends($request->all());
+    
+            return view('barang.index', ['barang' => $barang, 'kategori' => $kategori, 'kode' => $kode]);
+        }
     }
 
     public function store(Request $request)

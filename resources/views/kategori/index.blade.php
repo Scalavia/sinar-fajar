@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
-@section('content_header')
+@section('title')
+Kategori
 @endsection
 
 @section('content')
@@ -28,19 +29,21 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-9">
                       <div class="card">
                         <div class="card-header">
                           <h3 class="card-title text-middle">
-                            <div class="input-group input-group-sm mt-3" style="width: 250px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <form action="">
+                              <div class="input-group input-group-sm mt-3" style="width: 250px;">
+                                  <input type="text" name="cari" id="cari" class="form-control float-right" value="{{old('cari')}}" placeholder="Search">
+  
+                                  <div class="input-group-append">
+                                      <button type="submit" class="btn btn-default">
+                                          <i class="fas fa-search"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                            </form>
                           </h3>
 
                           <div class="card-tools">
@@ -51,7 +54,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
-                            <table class="table table-head-fixed text-nowrap" id="table-kategori">
+                            <table class="table table-head-hover text-nowrap" id="table-kategori">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -60,18 +63,28 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($kategori as $kategori)
-                                <tr>
-                                  <td>{{ $kategori->id }}</td>
-                                  <td>{{ $kategori->nama }}</td>
-                                  <td>
-                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-edit-kategori"><i class="fa fa-edit"></i> Ubah</button>
-                                    <a href="{{ url('/kategori/delete/'.$kategori->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
-                                  </td>
-                                </tr>
-                                @endforeach
+                                @forelse ($kategori as $nkategori)
+                                    <tr>
+                                        <td>{{ $nkategori->id }}</td>
+                                        <td>{{ $nkategori->nama }}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-edit-kategori"><i class="fa fa-edit"></i> Ubah</button>
+                                            <a href="{{ url('/kategori/delete/'.$nkategori->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <td class="text-center" colspan="10">DATA YANG ANDA CARI TIDAK DITEMUKAN!</td>
+                                @endforelse
                                 </tbody>
                             </table>
+                            <div class="row m-2">
+                              <div class="col-md-3">
+                                Showing {{ $kategori->firstItem() }} to {{ $kategori->lastItem() }} of {{ $kategori->total() }} entries
+                              </div>
+                              <div class="col-md-9">
+                                <span class="float-right">{!! $kategori->links('bootstrap-4') !!}</span>
+                              </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                       </div>

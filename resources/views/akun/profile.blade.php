@@ -1,7 +1,7 @@
 @extends('layouts.index')
 
 @section('title')
-Akun
+Profile
 @endsection
 
 @section('content')
@@ -12,13 +12,12 @@ Akun
             <div class="container-fluid">
                 <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Akun</h1>
+                    <h1 class="m-0">Profile</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item">Akun</li>
-                    <li class="breadcrumb-item active">Ubah Akun</li>
+                    <li class="breadcrumb-item active">Profile</li>
                     </ol>
                 </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -34,11 +33,11 @@ Akun
                         <!-- general form elements -->
                         <div class="card card-warning">
                           <div class="card-header">
-                            <h3 class="card-title"><b>Ubah Akun</h3>
+                            <h3 class="card-title"><b>Ubah Profile</h3>
                           </div><!-- /.card-header -->
 
                             <!-- form start -->
-                            <form action="{{ url('/akun/'.$akun->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ url('/profile/update/'.Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row m-2">
                                     <div class="col-md-6">
@@ -64,27 +63,6 @@ Akun
                                         <div class="form-group">
                                         <label for="Email">Email</label>
                                         <input type="text" class="form-control" id="email" name="email" value="{{ $akun->email }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                        <label for="Username">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username" value="{{ $akun->username }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <!-- select -->
-                                        <div class="form-group">
-                                            <label>Level</label>
-                                            <select class="form-control" name="level">
-                                                @if ($akun->role == "admin")
-                                                    <option value="{{ $akun->role }}"> Admin</option>
-                                                    <option value="karyawan">Karyawan</option>
-                                                @else
-                                                    <option value="{{ $akun->role }}"> Karyawan </option>
-                                                    <option value="admin">Admin</option>
-                                                @endif
-                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

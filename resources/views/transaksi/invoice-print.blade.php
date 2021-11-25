@@ -36,7 +36,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6 invoice-col">
-                    <b>Kasir:</b> Nama<br>
+                    <b>Kasir:</b> {{ $transaksi->user->name }}<br>
                     <b>Tanggal:</b> {{ date('d M Y', strtotime($transaksi->created_at)) }}<br>
                     <b>Jam:</b> {{ date('H:i', strtotime($transaksi->created_at)) }}
                 </div>

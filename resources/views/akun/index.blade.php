@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
-@section('content_header')
+@section('title')
+Akun
 @endsection
 
 @section('content')
@@ -32,15 +33,17 @@
                       <div class="card">
                         <div class="card-header">
                           <h3 class="card-title text-middle">
-                            <div class="input-group input-group-sm mt-3" style="width: 250px;">
-                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-default">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <form action="">
+                              <div class="input-group input-group-sm mt-3" style="width: 250px;">
+                                  <input type="text" name="cari" id="cari" class="form-control float-right" value="{{old('cari')}}" placeholder="Search">
+  
+                                  <div class="input-group-append">
+                                      <button type="submit" class="btn btn-default">
+                                          <i class="fas fa-search"></i>
+                                      </button>
+                                  </div>
+                              </div>
+                            </form>
                           </h3>
 
                           <div class="card-tools">
@@ -50,8 +53,8 @@
                           </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0" style="height: 300px;">
-                            <table class="table table-head-fixed text-nowrap">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -62,20 +65,30 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($akun as $akun)
-                                    <tr>
-                                        <td>{{ $akun->id }}</td>
-                                        <td>{{ $akun->role }}</td>
-                                        <td>{{ $akun->name }}</td>
-                                        <td>{{ $akun->notelp }}</td>
-                                        <td>
-                                            <a href="{{ url('/akun/'.$akun->id.'/edit') }}" class="btn btn-warning"><i class="fa fa-edit"></i> Ubah</a>
-                                            <a href="{{ url('/akun/delete/'.$akun->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                    @forelse ($akun as $nakun)
+                                        <tr>
+                                            <td>{{ $nakun->id }}</td>
+                                            <td>{{ strtoupper($nakun->role) }}</td>
+                                            <td>{{ $nakun->name }}</td>
+                                            <td>{{ $nakun->notelp }}</td>
+                                            <td>
+                                                <a href="{{ url('/akun/'.$nakun->id.'/edit') }}" class="btn btn-warning"><i class="fa fa-edit"></i> Ubah</a>
+                                                <a href="{{ url('/akun/delete/'.$nakun->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                            </td>
+                                        </tr>
+                                        @empty
+                                        <td class="text-center" colspan="10">DATA YANG ANDA CARI TIDAK DITEMUKAN!</td>
+                                    @endforelse
                                 </tbody>
                             </table>
+                            <div class="row m-2">
+                              <div class="col-md-3">
+                                Showing {{ $akun->firstItem() }} to {{ $akun->lastItem() }} of {{ $akun->total() }} entries
+                              </div>
+                              <div class="col-md-9">
+                                <span class="float-right">{!! $akun->links('bootstrap-4') !!}</span>
+                              </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                       </div>
@@ -107,7 +120,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                            <label for="Nama">Nama</label>
+                            <label for="Nama">Nama Lengkap</label>
                             <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
-@section('content_header')
+@section('title')
+Transaksi
 @endsection
 
 @section('content')
@@ -35,7 +36,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                     <label for="Nama">Kasir</label>
-                                    <input type="text" readonly class="form-control" id="nama" name="nama" value="">
+                                    <input type="text" readonly class="form-control" id="nama" name="nama" value="{{ Auth::user()->name }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -97,8 +98,8 @@
                               </div>
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body table-responsive p-0" style="height: 300px;">
-                                <table class="table table-head-fixed text-nowrap">
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
                                         <th>#</th>
@@ -117,7 +118,9 @@
                                             <td>{{ $transaksi->harga }}</td>
                                             <td>{{ $transaksi->jumlah }}</td>
                                             <td>{{ $transaksi->subtotal }}</td>
-                                            <td></td>
+                                            <td>
+                                                <a href="{{ url('/transaksi/delete/'.$transaksi->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -141,7 +144,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                        <input type="text" readonly class="form-control" id="total_bayar" name="total_bayar" value="{{ $total_baryar }}">
+                                        <input type="text" readonly onkeyup="pengurangan();" class="form-control" id="total_bayar" name="total_bayar" value="{{ $total_baryar }}">
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +154,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                        <input type="text" class="form-control" id="bayar" name="bayar" placeholder="Jumlah Bayar">
+                                        <input type="text" onkeyup="pengurangan();" class="form-control" id="bayar" name="bayar" placeholder="Jumlah Bayar">
                                         </div>
                                     </div>
                                 </div>
@@ -184,10 +187,13 @@
 @endsection
 
 @section('js')
-    {{-- <script>
-        total_bayar = document.getElementById('total_bayar').value
-        bayar = document.getElementById('bayar').value
-        hasil = total_bayar - bayar
-        document.getElementById('kembalian').value = bayar
-    </script> --}}
+    <script>
+        function pengurangan()
+        {
+            var total_bayar = document.getElementById('total_bayar').value;
+            var bayar = document.getElementById('bayar').value;
+            var hasil = parseInt(bayar) - parseInt(total_bayar);
+            document.getElementById('kembalian').value = hasil;
+        }
+    </script>
 @endsection
