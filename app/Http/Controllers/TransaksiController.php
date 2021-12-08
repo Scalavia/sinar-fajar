@@ -77,7 +77,8 @@ class TransaksiController extends Controller
                     'id_barang' => $dump->id_barang,
                     'jumlah' => $dump->jumlah,
                     'harga' => $dump->harga,
-                    'total' => $dump->subtotal
+                    'total' => $dump->subtotal,
+                    'created_at' => $f->created_at
                 ]);
 
                 DumpTransaksi::where('id_barang', $dump->id_barang)->delete();
@@ -117,20 +118,37 @@ class TransaksiController extends Controller
         return view('transaksi.invoice-print', ['transaksi' => $transaksi, 'detail' => $detail]);
     }
 
-    public function filter()
+    // public function filter()
+    // {
+    //     $bulan = [];
+    //     $tahun = [];
+
+    //     return view('transaksi.laporan', ['bulan' => $bulan, 'tahun' => $tahun]);
+    // }
+
+    public function filter(Request $request)
     {
-        $bulan = [];
-        $tahun = [];
+        $dr = $request->tanggal;
+        $bulan = explode(" - ", $dr);
+        $transaksi = Transaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->get();
+        $detail = DetailTransaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->get();
+        $total = DetailTransaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->sum('total');
+        $ttlbarang = DetailTransaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->count('id_barang');
+        $ttltrx = Transaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->count('invoice');
 
-
-        return view('transaksi.laporan', ['bulan' => $bulan, 'tahun' => $tahun]);
+        return view('transaksi.filter_laporan', ['transaksi' => $transaksi, 'bulan' => $bulan, 'detail' => $detail, 'total' => $total, 'ttlbarang' => $ttlbarang, 'ttltrx' => $ttltrx]);
     }
 
-    public function filter_lap(Request $request)
+    public function print_laporan(Request $request)
     {
-        $bulan = $request->bulan_tahun;
-        $transaksi = Transaksi::whereYear('created_at', 2021)->get();
+        $dr = $request->tanggal;
+        $bulan = explode(" - ", $dr);
+        $transaksi = Transaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->get();
+        $detail = DetailTransaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->get();
+        $total = DetailTransaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->sum('total');
+        $ttlbarang = DetailTransaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->count('id_barang');
+        $ttltrx = Transaksi::whereBetween('created_at', [$bulan[0], $bulan[1]])->count('invoice');
 
-        return view('transaksi.filter_laporan', ['transaksi' => $transaksi, 'bulan' => $bulan]);
+        return view('transaksi.filter_laporan', ['transaksi' => $transaksi, 'bulan' => $bulan, 'detail' => $detail, 'total' => $total, 'ttlbarang' => $ttlbarang, 'ttltrx' => $ttltrx]);
     }
 }

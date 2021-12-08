@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/summernote/summernote-bs4.min.css">
+  {{-- Daterange --}}
+  <link rel="stylesheet" href="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/daterangepicker/daterangepicker.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -86,7 +88,22 @@
 <script src="{{ asset('vendor/AdminLTE-3.1.0') }}/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('vendor/AdminLTE-3.1.0') }}/dist/js/pages/dashboard.js"></script>
-
+{{--  --}}
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- InputMask -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- Select2 -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- BS-Stepper -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<!-- dropzonejs -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/plugins/dropzone/min/dropzone.min.js"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('vendor/AdminLTE-3.1.0') }}/dist/js/adminlte.min.js"></script>
 {{-- Sweetalert --}}
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth'], function(){
         Route::get('/laporan', function () {
             return view('transaksi.laporan');
         });
-        Route::get('/laporan/filter', [TransaksiController::class, 'filter_lap'])->name('laporan_filter');
+        Route::get('/laporan/filter', [TransaksiController::class, 'filter'])->name('laporan_filter');
     });
     
     //Karyawan
