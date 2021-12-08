@@ -27,7 +27,7 @@ class KategoriController extends Controller
         $kategori->nama = $request->nama;
         $kategori->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil tambah kategori baru');
     }
 
     public function update(Request $request)
@@ -36,13 +36,13 @@ class KategoriController extends Controller
         $kategori->nama = $request->nama;
         $kategori->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil perbarui kategori '.$kategori->nama);
     }
 
     public function destroy($id)
     {
-        $kategori = Kategori::where('id', $id)->delete();
+        Kategori::where('id', $id)->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil hapus kategori');
     }
 }

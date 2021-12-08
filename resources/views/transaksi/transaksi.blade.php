@@ -28,6 +28,7 @@ Transaksi
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                @include('flash-message')
                 <div class="row">
                     <div class="col-6">
                         <!-- general form elements -->

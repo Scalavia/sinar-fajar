@@ -28,6 +28,7 @@ Profile
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                @include('flash-message')
                 <div class="row">
                     <div class="col-12">
                         <!-- general form elements -->

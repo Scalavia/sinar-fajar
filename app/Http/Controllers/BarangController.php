@@ -47,7 +47,7 @@ class BarangController extends Controller
         $barang->gambar = $nama_file;
         $barang->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil tambah barang baru');
     }
 
     public function edit($id)
@@ -81,13 +81,13 @@ class BarangController extends Controller
             $barang->save();
         }
 
-        return redirect('/barang');
+        return redirect('/barang')->with('success', 'Berhasil perbarui '.$barang->nama_barang);
     }
 
     public function destroy($id)
     {
         Barang::where('id', $id)->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil hapus barang');
     }
 }

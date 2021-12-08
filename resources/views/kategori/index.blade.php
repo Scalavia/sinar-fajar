@@ -28,6 +28,7 @@ Kategori
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                @include('flash-message')
                 <div class="row">
                     <div class="col-9">
                       <div class="card">
@@ -65,7 +66,7 @@ Kategori
                                 <tbody>
                                 @forelse ($kategori as $nkategori)
                                     <tr>
-                                        <td>{{ $nkategori->id }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $nkategori->nama }}</td>
                                         <td>
                                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-edit-kategori"><i class="fa fa-edit"></i> Ubah</button>

@@ -28,6 +28,7 @@ Akun
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                @include('flash-message')
                 <div class="row">
                     <div class="col-12">
                       <div class="card">
@@ -67,7 +68,7 @@ Akun
                                 <tbody>
                                     @forelse ($akun as $nakun)
                                         <tr>
-                                            <td>{{ $nakun->id }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ strtoupper($nakun->role) }}</td>
                                             <td>{{ $nakun->name }}</td>
                                             <td>{{ $nakun->notelp }}</td>

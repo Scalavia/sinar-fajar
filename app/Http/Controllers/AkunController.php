@@ -34,7 +34,7 @@ class AkunController extends Controller
         $akun->password = Hash::make($request->password);
         $akun->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil tambah akun baru');
     }
 
     public function edit($id)
@@ -57,7 +57,7 @@ class AkunController extends Controller
             $akun->email = $request->email;
             $akun->save();
 
-            return redirect('/akun');
+            return redirect('/akun')->with('success', 'Berhasil perbarui data akun '.$akun->name);
         } else {
             $akun->role = $request->level;
             $akun->username = $request->username;
@@ -68,7 +68,7 @@ class AkunController extends Controller
             $akun->password = Hash::make($request->password);
             $akun->save();
 
-            return redirect('/akun');
+            return redirect('/akun')->with('success', 'Berhasil perbarui data akun '.$akun->name);
         }
     }
 
@@ -76,7 +76,7 @@ class AkunController extends Controller
     {
         Akun::find($id)->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Berhasil hapus akun');
     }
 
     public function profile($id)
@@ -106,7 +106,7 @@ class AkunController extends Controller
             $akun->password = Hash::make($request->password);
             $akun->save();
 
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Berhasil perbarui data');
         }
     }
 }

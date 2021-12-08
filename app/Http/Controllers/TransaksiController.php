@@ -27,17 +27,21 @@ class TransaksiController extends Controller
     {
         $barang = Barang::find($request->barang);
         $barang_sekarang = $barang->stok - $request->qty;
-        $barang->stok = $barang_sekarang;
-        $barang->save();
+        if ($barang_sekarang < $barang->stok) {
+            return redirect()->back()->with('warning', 'Qty lebih dari stok');
+        } else {
+            $barang->stok = $barang_sekarang;
+            $barang->save();
 
-        $dump_transaksi = new DumpTransaksi();
-        $dump_transaksi->id_barang = $request->barang;
-        $dump_transaksi->jumlah = $request->qty;
-        $dump_transaksi->harga = $barang->harga;
-        $dump_transaksi->subtotal = $barang->harga * $request->qty;
-        $dump_transaksi->save();
-
-        return redirect()->back();
+            $dump_transaksi = new DumpTransaksi();
+            $dump_transaksi->id_barang = $request->barang;
+            $dump_transaksi->jumlah = $request->qty;
+            $dump_transaksi->harga = $barang->harga;
+            $dump_transaksi->subtotal = $barang->harga * $request->qty;
+            $dump_transaksi->save();
+    
+            return redirect()->back()->with('success', 'Barang berhasil ditambah dikeranjang');
+        }
     }
 
     public function hapus_keranjang($id)
@@ -49,7 +53,7 @@ class TransaksiController extends Controller
         $barang->save();
         $dump_transaksi->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Barang berhasil dihapus');
     }
 
     public function proses(Request $request)
@@ -85,7 +89,7 @@ class TransaksiController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Transaksi berhasil');
     }
 
     public function riwayat_transaksi(Request $request)
