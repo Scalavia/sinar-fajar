@@ -10,6 +10,14 @@
 <<<<<<< HEAD
 Yamete Kudasai
 
+admin <br>
+username: tiara <br>
+password: 87654321 <br>
+<br>
+karyawan <br>
+username: dedi <br>
+password: 12345678 <br>
+
 ## About Laravel
 =======
 ## About Laraveli
