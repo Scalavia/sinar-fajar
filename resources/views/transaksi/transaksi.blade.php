@@ -171,7 +171,6 @@ Transaksi
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                     <button type="submit" class="btn btn-success">Proses Pembayaran</button>
-                                    <button type="button" class="btn btn-warning">Batal</button>
                                 </div>
                             </form>
                         </div>
