@@ -27,9 +27,9 @@ class TransaksiController extends Controller
     {
         $barang = Barang::find($request->barang);
         $barang_sekarang = $barang->stok - $request->qty;
-        if ($barang_sekarang < $barang->stok) {
-            return redirect()->back()->with('warning', 'Qty lebih dari stok');
-        } else {
+        // if ($barang_sekarang < $barang->stok) {
+            // return redirect()->back()->with('warning', 'Qty lebih dari stok');
+        // } else {
             $barang->stok = $barang_sekarang;
             $barang->save();
 
@@ -41,7 +41,7 @@ class TransaksiController extends Controller
             $dump_transaksi->save();
     
             return redirect()->back()->with('success', 'Barang berhasil ditambah dikeranjang');
-        }
+        // }
     }
 
     public function hapus_keranjang($id)

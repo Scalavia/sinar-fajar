@@ -54,13 +54,13 @@ class StokController extends Controller
     {
         $barang = Barang::find($request->id_barang);
         $kurang_stok = $barang->stok - $request->kurang_stok;
-        if ($kurang_stok < $barang->stok){
-            return redirect()->back()->with('warning', 'Gagal mengurangi stok '.$barang->nama_barang);
-        } else {
+        // if ($kurang_stok < $barang->stok){
+            // return redirect()->back()->with('warning', 'Gagal mengurangi stok '.$barang->nama_barang);
+        // } else {
             $barang->stok = $kurang_stok;
             $barang->save();
 
             return redirect()->back()->with('success', 'Berhasil mengurangi stok '.$barang->nama_barang);
-        }
+        // }
     }
 }
