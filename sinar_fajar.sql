@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2021 at 02:52 AM
+-- Generation Time: Dec 30, 2021 at 01:49 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.22
 
@@ -45,8 +45,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id`, `kode_barang`, `id_kategori`, `nama_barang`, `deskripsi`, `stok`, `harga`, `gambar`, `created_at`, `updated_at`) VALUES
-(1, 'BR1', 1, 'Kursi Minimalis', 'Terbuat dari pohon rambutan', 20, NULL, '1636474547_kursi.jpg', '2021-11-09 09:15:47', '2021-12-07 18:34:05'),
-(2, 'BR2', 1, 'Meja Sudut', 'Terbuat dari kayu jati', 10, 100000, '1636474571_meja.jpg', '2021-11-09 09:16:11', '2021-12-07 18:27:57');
+(1, 'BR1', 1, 'Kursi Minimalis', 'Terbuat dari pohon rambutan', 2, 100000, '1636474547_kursi.jpg', '2021-11-09 09:15:47', '2021-12-23 06:51:44'),
+(2, 'BR2', 1, 'Meja Sudut', 'Terbuat dari kayu jati', 5, 100000, '1636474571_meja.jpg', '2021-11-09 09:16:11', '2021-12-15 19:54:37');
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,11 @@ INSERT INTO `detail_transaksi` (`id`, `id_transaksi`, `id_barang`, `jumlah`, `ha
 (10, 7, 1, 3, 50000, 150000, NULL, NULL),
 (11, 8, 2, 5, 100000, 500000, NULL, NULL),
 (12, 9, 1, 1, 50000, 50000, '2021-12-06 10:42:06', NULL),
-(13, 9, 2, 2, 100000, 200000, '2021-12-06 10:42:06', NULL);
+(13, 9, 2, 2, 100000, 200000, '2021-12-06 10:42:06', NULL),
+(14, 10, 2, 5, 100000, 500000, '2021-12-15 19:48:38', NULL),
+(15, 10, 1, 10, 100000, 1000000, '2021-12-15 19:48:38', NULL),
+(16, 11, 1, 5, 100000, 500000, '2021-12-21 00:04:36', NULL),
+(17, 11, 1, 2, 100000, 200000, '2021-12-21 00:04:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -99,6 +103,13 @@ CREATE TABLE `dump_transaksi` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `dump_transaksi`
+--
+
+INSERT INTO `dump_transaksi` (`id`, `id_barang`, `jumlah`, `harga`, `subtotal`, `created_at`, `updated_at`) VALUES
+(17, 1, 2, 100000, 200000, '2021-12-23 06:33:09', '2021-12-23 06:33:09');
 
 -- --------------------------------------------------------
 
@@ -221,7 +232,10 @@ INSERT INTO `stok` (`id`, `id_barang`, `id_supplier`, `stok_masuk`, `created_at`
 (2, 1, NULL, 5, '2021-11-24 10:16:44', '2021-11-24 10:16:44'),
 (3, 1, NULL, 5, '2021-11-24 18:55:17', '2021-11-24 18:55:17'),
 (4, 1, NULL, 1, '2021-12-07 18:25:53', '2021-12-07 18:25:53'),
-(5, 2, NULL, 2, '2021-12-07 18:27:56', '2021-12-07 18:27:56');
+(5, 2, NULL, 2, '2021-12-07 18:27:56', '2021-12-07 18:27:56'),
+(6, 2, NULL, 5, '2021-12-15 19:53:32', '2021-12-15 19:53:32'),
+(7, 1, NULL, 8, '2021-12-21 00:20:01', '2021-12-21 00:20:01'),
+(8, 1, NULL, 5, '2021-12-23 06:49:02', '2021-12-23 06:49:02');
 
 -- --------------------------------------------------------
 
@@ -270,7 +284,9 @@ INSERT INTO `transaksi` (`id`, `id_user`, `invoice`, `keterangan`, `total_bayar`
 (6, 1, 'INV211120217B0BE', NULL, 600000, 600000, 0, '2021-11-21 04:59:30', '2021-11-21 04:59:30'),
 (7, 1, 'INV241120212BBA9', NULL, 150000, 150000, 0, '2021-11-24 06:30:58', '2021-11-24 06:30:58'),
 (8, 1, 'INV25112021ED7B3', NULL, 500000, 1000000, 500000, '2021-11-24 18:53:01', '2021-11-24 18:53:01'),
-(9, 1, 'INV612202111E65', NULL, 250000, 250000, 0, '2021-12-06 10:42:06', '2021-12-06 10:42:06');
+(9, 1, 'INV612202111E65', NULL, 250000, 250000, 0, '2021-12-06 10:42:06', '2021-12-06 10:42:06'),
+(10, 1, 'INV16122021E0C1D', NULL, 1500000, 1500000, 0, '2021-12-15 19:48:38', '2021-12-15 19:48:38'),
+(11, 1, 'INV211220215C9F7', NULL, 700000, 700000, 0, '2021-12-21 00:04:36', '2021-12-21 00:04:36');
 
 -- --------------------------------------------------------
 
@@ -299,7 +315,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `role`, `username`, `name`, `notelp`, `alamat`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'tiara', 'Tiara', '088217643825', 'JL.KH.HASYIM ASYARI GG.PUSKESMAS NO.9', 'tiara@gmail.com', NULL, '$2y$10$XOFSh.09npPsN2eJQEcgfuKW.DkUZMKL6ImXaiCaW8wG/tCX.wH72', NULL, '2021-11-15 18:02:34', '2021-12-07 18:38:08'),
-(3, 'karyawan', 'dedi', 'Dedi', '085735115655', 'Jl. Veteran', 'dedi@gmail.com', NULL, '$2y$10$kP.c63dSTyuPGF4h45VV2.HyeDeTeeAGybGwkT9P3mTQwfawcs1/O', NULL, '2021-11-24 10:11:39', '2021-11-24 10:11:39');
+(3, 'karyawan', 'dedi', 'Dedi', '085735115655', 'Jl. Veteran', 'dedi@gmail.com', NULL, '$2y$10$kP.c63dSTyuPGF4h45VV2.HyeDeTeeAGybGwkT9P3mTQwfawcs1/O', NULL, '2021-11-24 10:11:39', '2021-11-24 10:11:39'),
+(4, 'karyawan', 'marsu20', 'marsu', '08888888', 'veteran', 'marsu@gmail.com', NULL, '$2y$10$xHi3bGqXUfWe68SpKJEH6OEWWwOrIlr2aMU1Ee7wgifTRzurTKVuK', NULL, '2021-12-15 19:51:33', '2021-12-15 19:52:14');
 
 --
 -- Indexes for dumped tables
@@ -309,7 +326,8 @@ INSERT INTO `users` (`id`, `role`, `username`, `name`, `notelp`, `alamat`, `emai
 -- Indexes for table `barang`
 --
 ALTER TABLE `barang`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nama_barang` (`nama_barang`);
 
 --
 -- Indexes for table `detail_transaksi`
@@ -389,19 +407,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `dump_transaksi`
 --
 ALTER TABLE `dump_transaksi`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -413,7 +431,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -431,7 +449,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -443,13 +461,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
